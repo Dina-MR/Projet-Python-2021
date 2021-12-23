@@ -16,9 +16,12 @@ class Article:
         self.date = date
         self.type=type
      
-
+# accesseurs
     def get_type(self):
         return self.type
+    
+    def get_source(self):
+        return self.source
 
 
     # Fonction qui renvoie le texte à afficher lorsqu'on tape repr(Article)
