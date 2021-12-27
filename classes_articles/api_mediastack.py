@@ -33,6 +33,8 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
     ------
     Aucun
     """
+    list_articles=[]
+    cat_articles={}
     # connexion au site
     conn = http.client.HTTPConnection('api.mediastack.com')
     
@@ -59,8 +61,12 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
     data_json = json.loads(decodage)
     # Récupération de la liste des articles à partir de donnees_json['data']
     liste_articles_mediastack = data_json['data']
+    for k,article in enumerate(liste_articles_mediastack):
+        list_articles.append(('mediastack',article))
+        
+        
     
-    return liste_articles_mediastack
+    return list_articles
    
 
 # Exécution
@@ -79,8 +85,8 @@ sort=["published_desc","popularity"]
 my_key_mediastack="74713d7a61ca250397ba5e6b7b64b540"
 CATEGORIES = '-general,health' 
 
-liste_articles_mediastack=extraction_mediaStack(my_key_mediastack,category=CATEGORIES,limit_page=99)
-print(type(liste_articles_mediastack))
+liste_articles_mediastack=extraction_mediaStack(my_key_mediastack,category=CATEGORIES,limit_page=80)
+print(liste_articles_mediastack)
 
 
 
@@ -90,37 +96,50 @@ print(type(liste_articles_mediastack))
 from classesArticles import Article, ArticleMediastack, ArticleNewsData
 import datetime
 
+
+
 # collection pour regroupes ls article selon la soruce
 collection=[]
-
-for indice, article in enumerate(liste_articles_mediastack):
+article_mediastack=Article()
+for nature, article in enumerate(liste_articles_mediastack):
         # A FAIRE PLUS TARD : INSTANCIER UN NOUVEAU DOCUMENT
+        if nature=="mediastack":
       
-        idArticle={}
-    
-        indice_i=indice+1
+            idArticle={}
         
-        titre=article['title']
-        auteur=article['author']
-        description=article['description']
-        source=article['source']
-        url=article['url']
-      
-        img=article['image']
-        categorie= article['category']
-        langue= article['language']
-        pays=article['country']     # 2021-11-25T17:21:41+00:00
-        #date=datetime.datetime.fromtimestamp(article.published_at).strftime("%Y/%m/%d")
-        #date=article['published_at']
-        date=article["published_at"]
-        
-        #date=datetime.datetime.strptime(article["published_at"],"%Y-%m-%dT%H:%M:%SZ").strftime("%Y/%m/%d")
-        #date=datetime.datetime.strptime(date).strftime("%Y/%m/%d")
-        article_mediastack=Article(titre,auteur,description,source,url,date,type="mediastack")
-        collection.append(article_mediastack)
+            #indice_i=indice+1
+            
+            titre=article['title']
+            auteur=article['author']
+            description=article['description']
+            source=article['source']
+            url=article['url']
+          
+            img=article['image']
+            categorie= article['category']
+            langue= article['language']
+            pays=article['country']     # 2021-11-25T17:21:41+00:00
+            #date=datetime.datetime.fromtimestamp(article.published_at).strftime("%Y/%m/%d")
+            #date=article['published_at']
+            date=article["published_at"]
+            
+            #date=datetime.datetime.strptime(article["published_at"],"%Y-%m-%dT%H:%M:%SZ").strftime("%Y/%m/%d")
+            #date=datetime.datetime.strptime(date).strftime("%Y/%m/%d")
+            
+            # création  d'un l'objet d'article 
+            article_mediastack=Article(titre,auteur,description,source,url,date,type="mediastack")
+            collection.append(article_mediastack)
+            #collection.append(,article_mediastack)
+            #collection.append(idArticle)
+
+
+
 
 
 print(collection)
+
+
+# construction des vocabulaires pour chaque corpus
 
 
 

@@ -20,8 +20,6 @@ class Article:
     def get_type(self):
         return self.type
     
-    def get_source(self):
-        return self.source
 
 
     # Fonction qui renvoie le texte à afficher lorsqu'on tape repr(Article)
@@ -31,6 +29,16 @@ class Article:
     #renvoie le texte à afficher: str(Article)
     def __str__(self):
         return f"{self.titre}, écrit par  {self.auteur}"
+    
+    
+    def get_vocabulaire(self,article_liste=""):
+        self.article_liste=article_liste
+        voc = set()
+        for nature,article in enumerate( self.article_list):
+            for mot in article['description'].split(" "):
+                voc.add(mot)
+
+        return voc
     
     
     
@@ -79,3 +87,11 @@ class ArticleNewsData(Article):
     #renvoie le texte à afficher: str(ArticleNewsData)
     def __str__(self):
         return f"Article NewsData: {self.titre}, écrit par :{self.auteur} mots clés: {self.mots_cles}"
+    
+    
+    
+    
+    
+    
+    
+   
