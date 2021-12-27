@@ -65,14 +65,3 @@ def extraction_news_data_api(cle_api, mot_cle =  None, pays = None, langue = Non
         # Ajout de l'article à la liste des nouveaux articles
         nouveaux_articles.append(nouvel_article)
     return nouveaux_articles
-
-# Exécution 
-
-# Paramètres
-CLE_API_NEWSDATA = 'pub_2998ef8f3cbeb3b8f1a3f91cc9d812b4f950'
-PAYS_NEWSDATA = "fr, us"
-LANGUES_NEWSDATA = "en, fr"
-MOTS_CLES_NEWSDATA = "pizza"
-CATEGORIES_NEWSDATA = "world"
-# Appel de la fonction
-extraction_news_data_api(cle_api = CLE_API_NEWSDATA, langue = LANGUES_NEWSDATA)
