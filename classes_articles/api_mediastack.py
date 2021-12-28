@@ -85,22 +85,24 @@ sort=["published_desc","popularity"]
 my_key_mediastack="74713d7a61ca250397ba5e6b7b64b540"
 CATEGORIES = '-general,health' 
 
-liste_articles_mediastack=extraction_mediaStack(my_key_mediastack,category=CATEGORIES,limit_page=80)
+liste_articles_mediastack=extraction_mediaStack(my_key_mediastack,category=CATEGORIES,limit_page=10)
 print(liste_articles_mediastack)
 
 
 
 
-## création d'une collection des articles 
+## -----------création du corpus ----------------------------------
 
 from classesArticles import Article, ArticleMediastack, ArticleNewsData
 import datetime
 
+import classesCorpus as  clc
 
+# instancier l'objet corpusArticle
+corpusArticle=clc.Corpus('mediastack')
+#article_mediastack=Article()
 
-# collection pour regroupes ls article selon la soruce
-collection=[]
-article_mediastack=Article()
+# Ajout des article dans le corpus
 for nature, article in enumerate(liste_articles_mediastack):
         # A FAIRE PLUS TARD : INSTANCIER UN NOUVEAU DOCUMENT
         if nature=="mediastack":
@@ -128,7 +130,8 @@ for nature, article in enumerate(liste_articles_mediastack):
             
             # création  d'un l'objet d'article 
             article_mediastack=Article(titre,auteur,description,source,url,date,type="mediastack")
-            collection.append(article_mediastack)
+            
+            corpusArticle.ajouter_article(article_mediastack)
             #collection.append(,article_mediastack)
             #collection.append(idArticle)
 
@@ -136,16 +139,24 @@ for nature, article in enumerate(liste_articles_mediastack):
 
 
 
-print(collection)
-
-
+print(corpusArticle)
+for i,v in enumerate(corpusArticle):
+    print(f"i: {v}")
+    
 # construction des vocabulaires pour chaque corpus
 
 
 
+'''
 
+#ajout d'un article
+import classesCorpus as  clc
 
+corpusArticle=clc.Corpus('medaistack')
 
+corpusArticle.ajouter_article(liste_articles_mediastack)
+ 
+'''
 
 
 

@@ -17,7 +17,7 @@ class Article:
         self.type=type
      
 # accesseurs
-    def get_type(self):
+    def get_source(self):
         return self.type
     
 
@@ -31,14 +31,7 @@ class Article:
         return f"{self.titre}, écrit par  {self.auteur}"
     
     
-    def get_vocabulaire(self,article_liste=""):
-        self.article_liste=article_liste
-        voc = set()
-        for nature,article in enumerate( self.article_list):
-            for mot in article['description'].split(" "):
-                voc.add(mot)
-
-        return voc
+    
     
     
     
