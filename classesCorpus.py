@@ -48,7 +48,7 @@ class Corpus:
         self.nombre_articles = 0
         self.nombre_articles_par_source = pandas.DataFrame(columns = ['source', 'nombre_articles'])
         
-    def ajouter_article(self, *args):
+    def ajouter_article(self, *articles):
         """ Ajout d'un ou plusieurs articles dans le corpus
         
         Paramètres
@@ -60,9 +60,10 @@ class Corpus:
         ------
         Aucun
         """
-        for article in args:
+        for article in articles:
            self.nombre_articles += 1
            self.id_articles[self.nombre_articles] = article
+           print("Article n° {} ajouté au corpus {}.".format(self.nombre_articles, self.nom))
            self.maj_articles_par_source(self.nombre_articles)
         
         
@@ -84,7 +85,8 @@ class Corpus:
             # Si la source n'existe pas dans nombre_articles_par_source, on l'ajoute à ce dernier
             if (len(self.nombre_articles_par_source[self.nombre_articles_par_source.source == source_a_ajouter]) < 1):
                 self.nombre_articles_par_source = self.nombre_articles_par_source.append({'source' : source_a_ajouter,
-                                                                                          'nombre_articles' : 1})
+                                                                                          'nombre_articles' : 1},
+                                                                                         ignore_index = True)
             # Sinon, on met uniquement à jour le nombre d'article pour la dite source
             else:
                 self.nombre_articles_par_source[self.nombre_articles_par_source.source == source_a_ajouter].nombre_articles += 1
