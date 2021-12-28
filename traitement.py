@@ -45,4 +45,4 @@ def nettoyer_texte(texte):
 # ==== TEST ====
     
 texte = "32, d2l ma 456bn 38784 -12378 26.9 9"
-nettoyer_texte(texte)
+print(nettoyer_texte(texte))
