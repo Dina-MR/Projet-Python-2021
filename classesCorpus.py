@@ -29,6 +29,10 @@ class Corpus:
         Nombre d'articles dans le corpus
     nombre_articles_par_source : pandas.DataFrame
         Data-frame en deux colonnes représentant l'ensemble des nombres d'articles pour chaque source détectée
+    vocabulaire_duplicatas : list
+        Liste de mots présents dans le corpus (avec possibilité de doublons)
+    vocabulaire_unique : set
+        Ensemble des mots dans le corpus (sans doublons)
     
     Retour
     ------
@@ -47,6 +51,8 @@ class Corpus:
         self.id_articles = {}
         self.nombre_articles = 0
         self.nombre_articles_par_source = pandas.DataFrame(columns = ['source', 'nombre_articles'])
+        self.vocabulaire_duplicatas = list()
+        self.vocabulaire_unique = set() 
         
     def ajouter_article(self, *articles):
         """ Ajout d'un ou plusieurs articles dans le corpus
@@ -64,7 +70,12 @@ class Corpus:
            self.nombre_articles += 1
            self.id_articles[self.nombre_articles] = article
            print("Article n° {} ajouté au corpus {}.".format(self.nombre_articles, self.nom))
+           # Mise à jour du vocabulaire avec duplicatas
+           self.maj_vocabulaire_duplicatas(self.nombre_articles)
+           # Mise à jour du dataframe
            self.maj_articles_par_source(self.nombre_articles)
+        # Mise à jour du vocabulaire sans doublons
+        self.set_vocabulaire_unique()
         
         
     def maj_articles_par_source(self, cle_nouvel_article):
@@ -93,3 +104,40 @@ class Corpus:
         # Si l'article ne possède pas de source, on affiche un message d'erreur
         else:
             print("Erreur : l'article n° {cle_nouvel_article} ne possède pas de source.")
+            
+    def maj_vocabulaire_duplicatas(self, cles_nouveaux_articles):
+        """ Mise à jour du vocabulaire avec duplicats
+        
+        Paramètres
+        ----------
+        *cles_nouveaux_articles : int ou list(int)
+            Clé ou liste de clés des articles dont on veut ajouter les mots au vocabulaire avec duplicatas
+            
+        Retour
+        ------
+        Aucun
+        """
+        if(type(cles_nouveaux_articles) is not list):
+            article = self.id_articles[cles_nouveaux_articles]
+            self.vocabulaire_duplicatas += article.liste_mots
+        else:
+            for cle_article in cles_nouveaux_articles:
+                article = self.id_articles[cle_article]
+                self.vocabulaire_duplicatas += article.liste_mots
+        
+    
+    def set_vocabulaire_unique(self):
+        """ Mise à jour du vocabulaire sans duplicatas
+        
+        Paramètres
+        ----------
+        Aucun
+            
+        Retour
+        ------
+        Aucun
+        """
+        # Si le vocabulaire avec duplicatas est vide, on le met à jour
+        if(len(self.vocabulaire_duplicatas) < 1):
+            self.maj_vocabulaire_duplicatas(list(range(1, self.nombre_articles+1)))
+        self.vocabulaire_unique = set(self.vocabulaire_duplicatas)

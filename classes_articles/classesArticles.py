@@ -5,6 +5,13 @@ Created on Thu Dec 23 12:36:39 2021
 @author: Lenovo
 """
 
+# ==== LIBRAIRIES ====
+
+import traitement as tt
+
+
+# ==== CLASSES ====
+
 class Article:
     # Initialisation des variables de la classe mère
     def __init__(self, titre="", auteur="", description="",source="",url="",date="",type=""):
@@ -15,10 +22,15 @@ class Article:
         self.url = url
         self.date = date
         self.type=type
+        self.liste_mots = list()
+        self.set_liste_mots()
      
 # accesseurs
     def get_source(self):
         return self.type
+    
+    def get_source(self):
+        return self.source
     
 
 
@@ -32,6 +44,11 @@ class Article:
     
     
     
+    
+    # Fonction instanciant la liste de mots, avec au préalable un nettoyage du texte
+    def set_liste_mots(self):
+        texte_nettoye = tt.nettoyer_texte(self.description)
+        self.liste_mots += texte_nettoye.split()
     
     
     
