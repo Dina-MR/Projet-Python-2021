@@ -104,7 +104,7 @@ corpusArticle=clc.Corpus('mediastack')
 
 # Ajout des article dans le corpus
 for nature, article in enumerate(liste_articles_mediastack):
-        # A FAIRE PLUS TARD : INSTANCIER UN NOUVEAU DOCUMENT
+       
         if nature=="mediastack":
       
             idArticle={}
@@ -140,8 +140,7 @@ for nature, article in enumerate(liste_articles_mediastack):
 
 
 print(corpusArticle)
-for i,v in enumerate(corpusArticle):
-    print(f"i: {v}")
+
     
 # construction des vocabulaires pour chaque corpus
 
