@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Dec 21 14:13:22 2021
-AUTHORS:
+
+    
+    Spyder Editor
+Auteurs : 
+    MBEDI Morel, RANDRIAZANAMPARANY Dina
+Rôle du Script : 
+    Il permet d'extraire les articles di site Mediastack
     
 """
 #https://openclassrooms.com/fr/courses/4425111-perfectionnez-vous-en-python/4463445-organisez-un-projet-en-modules
@@ -30,6 +36,15 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
         Catégorie(s) désirée(s) des articles à extraire
     limit: int
          pagination, max=100
+         
+  
+    '''  -----exemple de filtre----------
+    categories=["general","busness","entertainment","health","science","sports","technology"]
+    sort=["published_desc","popularity"]
+     languages: 'fr,-en',
+     countries: 'ca,fr',
+     keywords = 'virus,-corona' or 'Wall street -wolf'
+     
         
     Retour
     ------
@@ -92,15 +107,8 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
 
 # Exécution
 
-''' exemple de filtre
-categories=["general","busness","entertainment","health","science","sports","technology"]
-sort=["published_desc","popularity"]
- languages: 'fr,-en',
- countries: 'ca,fr',
- keywords = 'virus,-corona' or 'Wall street -wolf'
- 
-'''
 
+'''
 # appel de la fonction
 
 my_key_mediastack="74713d7a61ca250397ba5e6b7b64b540"
@@ -110,83 +118,8 @@ liste_articles_mediastack=extraction_mediaStack(my_key_mediastack,category=CATEG
 print(liste_articles_mediastack)
 
 
-
-
-## -----------création du corpus ----------------------------------
+# Fin de la focntion
 
 '''
-from classesArticles import Article, ArticleMediastack, ArticleNewsData
-import datetime
-
-import classesCorpus as  clc
-
-# instancier l'objet corpusArticle
-corpusArticle=clc.Corpus('mediastack')
-
-#article_mediastack=Article()
-list_article=[]
-# Ajout des article dans le corpus
-for nature, article in enumerate(liste_articles_mediastack):
-    if nature =="mediastack":
-      
-            #idArticle={}
-        
-            #indice_i=indice+1
-            
-            titre=article['title']
-            auteur=article['author']
-            description=article['description']
-            source=article['source']
-            url=article['url']
-          
-            img=article['image']
-            categorie= article['category']
-            langue= article['language']
-            pays=article['country']     # 2021-11-25T17:21:41+00:00
-            #date=datetime.datetime.fromtimestamp(article.published_at).strftime("%Y/%m/%d")
-            #date=article['published_at']
-            date=article["published_at"]
-            
-            #date=datetime.datetime.strptime(article["published_at"],"%Y-%m-%dT%H:%M:%SZ").strftime("%Y/%m/%d")
-            #date=datetime.datetime.strptime(date).strftime("%Y/%m/%d")
-            
-            # création  d'un l'objet d'article 
-            article_mediastack=Article(titre,auteur,description,source,url,date,type="mediastack")
-            
-            corpusArticle.ajouter_article(article_mediastack)
-         
-                
-            #corpusArticle.ajouter_article(article_mediastack)
-            #collection.append(,article_mediastack)
-            #collection.append(idArticle)
-
-
-
-
-#corpusArticle.ajouter_article(ar)
-#list_article
-#corpusArticle.ajouter_article(list_article)
-
-#print(corpusArticle)
-
-    
-# construction des vocabulaires pour chaque corpuscorpusArticle
-
-
-'''
-
-#ajout d'un article
-'''
-import classesCorpus as  clc
-
-corpusArticle=clc.Corpus('medaistack')
-
-corpusArticle.ajouter_article(liste_articles_mediastack)
- 
-'''
-'''
-
-'''
-
 
 
