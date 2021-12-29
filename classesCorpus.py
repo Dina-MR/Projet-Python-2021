@@ -11,6 +11,8 @@ Rôle du Script :
 # ==== MODULES ====
 
 from classes_articles.classesArticles import Article, ArticleMediastack, ArticleNewsData
+from itertools import repeat
+import calculs.TDIDF as tfidf
 import pandas
 
 
@@ -33,6 +35,14 @@ class Corpus:
         Liste de mots présents dans le corpus (avec possibilité de doublons)
     vocabulaire_unique : set
         Ensemble des mots dans le corpus (sans doublons)
+    statistiques : pandas.DataFrame
+        Data-frame contenant les statistiques liées à chaque mot du corpus. Dans l'ordre nous avons :
+            - effectif_brut
+            - frequence_brute
+            - frequence_normalisee_logarithmique
+            - frequence_normalisee_max_demi
+            - frequence_inversee_brute
+            - tf_idf
     
     Retour
     ------
@@ -52,8 +62,30 @@ class Corpus:
         self.nombre_articles = 0
         self.nombre_articles_par_source = pandas.DataFrame(columns = ['source', 'nombre_articles'])
         self.vocabulaire_duplicatas = list()
-        self.vocabulaire_unique = set() 
+        self.vocabulaire_unique = set()
+        self.stats = pandas.DataFrame(columns = ['terme', 'effectif_brut', 
+                                                 'frequence_brute', 'frequence_normalisee_logarithmique', 
+                                                 'frequence_normalisee_max_demi', 'frequence_inverse_brute', 
+                                                 'tf_idf'])
+    
+    # Mutateurs
+    def set_vocabulaire_unique(self):
+        """ Mise à jour du vocabulaire sans duplicatas
         
+        Paramètres
+        ----------
+        Aucun
+            
+        Retour
+        ------
+        Aucun
+        """
+        # Si le vocabulaire avec duplicatas est vide, on le met à jour
+        if(len(self.vocabulaire_duplicatas) < 1):
+            self.maj_vocabulaire_duplicatas(list(range(1, self.nombre_articles+1)))
+        self.vocabulaire_unique = set(self.vocabulaire_duplicatas)
+    
+    # Autres fonctions
     def ajouter_article(self, *articles):
         """ Ajout d'un ou plusieurs articles dans le corpus
         
@@ -76,6 +108,8 @@ class Corpus:
            self.maj_articles_par_source(self.nombre_articles)
         # Mise à jour du vocabulaire sans doublons
         self.set_vocabulaire_unique()
+        # Mise à jour des statistiques
+        self.maj_stats()
         
         
     def maj_articles_par_source(self, cle_nouvel_article):
@@ -124,10 +158,10 @@ class Corpus:
             for cle_article in cles_nouveaux_articles:
                 article = self.id_articles[cle_article]
                 self.vocabulaire_duplicatas += article.liste_mots
-        
     
-    def set_vocabulaire_unique(self):
-        """ Mise à jour du vocabulaire sans duplicatas
+        
+    def maj_stats(self):
+        """ Mise à jour des statistiques de chaque terme du corpus
         
         Paramètres
         ----------
@@ -137,7 +171,30 @@ class Corpus:
         ------
         Aucun
         """
-        # Si le vocabulaire avec duplicatas est vide, on le met à jour
-        if(len(self.vocabulaire_duplicatas) < 1):
-            self.maj_vocabulaire_duplicatas(list(range(1, self.nombre_articles+1)))
-        self.vocabulaire_unique = set(self.vocabulaire_duplicatas)
+        # Mise à jour des termes
+        self.stats['terme'] = list(self.vocabulaire_unique)
+        # Récupération du nombre total de mots dans le vocabulaire (avec doublons)
+        taille_vocabulaire = len(self.vocabulaire_duplicatas)
+        # Mise à jour des stastiques TFIDF
+        self.maj_stats_effectifs()
+        self.stats['frequence_brute'] = list(map(tfidf.frequence_brute , self.stats['effectif_brut'], repeat(taille_vocabulaire)))
+        self.stats['frequence_normalisee_logarithmique'] = list(map(tfidf.frequence_normalisee_logarithmique, self.stats['frequence_brute']))
+        # Récupération de la fréquence brute maximale
+        frequence_max = self.stats['frequence_brute'].max()
+        # Mise à jour des autres statistiques TFIDF
+        self.stats['frequence_normalisee_max_demi'] = list(map(tfidf.frequence_normalisee_max_demi, self.stats['frequence_brute'], repeat(frequence_max)))
+        self.stats['frequence_inverse_brute'] = list(map(tfidf.frequence_inverse_brute, self.stats['frequence_brute']))
+        self.stats['tf_idf'] = list(map(tfidf.tf_idf, self.stats['frequence_brute'], self.stats['frequence_inverse_brute']))
+        
+    def maj_stats_effectifs(self):
+        """ Mise à jour des effectifs de chaque terme du corpus
+        
+        Paramètres
+        ----------
+        Aucun
+            
+        Retour
+        ------
+        Aucun
+        """
+        self.stats['effectif_brut'] = list(map(lambda terme : self.vocabulaire_duplicatas.count(terme), self.stats['terme']))
