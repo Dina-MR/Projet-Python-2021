@@ -198,3 +198,34 @@ class Corpus:
         Aucun
         """
         self.stats['effectif_brut'] = list(map(lambda terme : self.vocabulaire_duplicatas.count(terme), self.stats['terme']))
+        
+        
+    
+        import pandas
+        def get_frequence_mots(texte):
+            """ fréquence de chaque mots 
+            
+            Paramètres
+            ----------
+            texte:str
+
+            Retour
+            ------
+            Aucun
+            """
+
+            tous_les_mots = texte.split(" ")
+        
+            # Option 1 : Numpy
+            import numpy as np
+            mots, comptes = np.unique(tous_les_mots, return_counts=True)
+        
+            freq = pandas.DataFrame(list(zip(mots, comptes/sum(comptes))), columns=["Mots", "Comptes"])
+            
+            freq=freq.sort_values(by='Comptes', ascending=False)
+            
+            return freq    #♣ freq.head(5) top 5
+                
+        
+        
+    
