@@ -31,6 +31,23 @@ class Article:
     
     def get_source(self):
         return self.source
+
+# mutateur
+    def set_liste_mots(self):
+        """ Récupération des mots d'un article sous forme de liste, avec des traitements préalables
+        
+        Paramètres
+        ----------
+        Aucun
+            
+        Retour
+        ------
+        Aucun
+        """
+        texte_nettoye = tt.nettoyer_texte(self.description)
+        liste_mots_temporaire = texte_nettoye.split()
+        self.liste_mots += tt.supprimer_mots_vides(liste_mots_temporaire)
+        #self.liste_mots += liste_mots_temporaire
     
 
 
@@ -41,15 +58,6 @@ class Article:
     #renvoie le texte à afficher: str(Article)
     def __str__(self):
         return f"{self.titre}, écrit par  {self.auteur}"
-    
-    
-    
-    
-    # Fonction instanciant la liste de mots, avec au préalable un nettoyage du texte
-    def set_liste_mots(self):
-        texte_nettoye = tt.nettoyer_texte(self.description)
-        self.liste_mots += texte_nettoye.split()
-    
     
     
     

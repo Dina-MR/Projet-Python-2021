@@ -8,6 +8,12 @@ Rôle du Script :
     Il contient l'ensemble des valeurs constantes utilisées dans l'ensemble du projet
 """
 
+# ==== LIBRAIRIES ====
+
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+
 # ==== POUR L'EXTRACTION ====
 
 # Paramètres de l'API NewsData 
@@ -16,3 +22,8 @@ PAYS_NEWSDATA = "fr, us"
 LANGUES_NEWSDATA = "en, fr"
 MOTS_CLES_NEWSDATA = "pizza"
 CATEGORIES_NEWSDATA = "world"
+
+# ==== POUR LE NETTOYAGE DE TEXTE ====
+
+# Liste des mots vides
+MOTS_VIDES = stopwords.words()

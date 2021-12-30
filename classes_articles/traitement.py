@@ -42,7 +42,19 @@ def nettoyer_texte(texte):
     texte_propre = re.sub(" +", " ", texte_propre)
     return texte_propre
 
-# ==== TEST ====
+
+def supprimer_mots_vides(mots_initiaux):
+    """ Suppression des mots "vides" (inutiles) dans une liste de mots
     
-texte = "32, d2l ma 456bn 38784 -12378 26.9 9"
-print(nettoyer_texte(texte))
+    Attributs
+    ----------
+    mots_initiaux : list
+        Liste de mots, contenant potentiellement des mots inutiles
+    
+    Retour
+    ------
+    mots_conserves : list
+        Liste des mots contenus dans mots_initiaux, sans les mots inutiles
+    """
+    mots_conserves = [mot for mot in mots_initiaux if mot not in MOTS_VIDES]
+    return mots_conserves
