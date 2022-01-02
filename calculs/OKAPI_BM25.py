@@ -107,7 +107,7 @@ def score_facteur_quotient(mot, corpus, corpus_2, k, b):
 
 # ==== FONCTION PRINCIPALE ====
 
-def score(corpus, corpus_2, k, b = 0.75):
+def score(corpus, corpus_2, k = 2, b = 0.75):
     """ Score complet basé sur la formule d'OKAPI BM25
     
     Paramètres

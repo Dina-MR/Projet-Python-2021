@@ -13,6 +13,7 @@ Rôle du Script :
 from classes_articles.classesArticles import Article, ArticleMediastack, ArticleNewsData
 from itertools import repeat
 import calculs.TDIDF as tfidf
+import calculs.OKAPI_BM25 as okp
 import pandas
 
 
@@ -43,6 +44,8 @@ class Corpus:
             - frequence_normalisee_max_demi
             - frequence_inversee_brute
             - tf_idf
+    score_okapi_bm25 : float
+        Score OKAPI BM25 
     
     Retour
     ------
@@ -67,6 +70,7 @@ class Corpus:
                                                  'frequence_brute', 'frequence_normalisee_logarithmique', 
                                                  'frequence_normalisee_max_demi', 'frequence_inverse_brute', 
                                                  'tf_idf'])
+        self.score_okapi_bm25 = 0
     
     # Mutateurs
     def set_vocabulaire_unique(self):
@@ -84,6 +88,20 @@ class Corpus:
         if(len(self.vocabulaire_duplicatas) < 1):
             self.maj_vocabulaire_duplicatas(list(range(1, self.nombre_articles+1)))
         self.vocabulaire_unique = set(self.vocabulaire_duplicatas)
+    
+    def set_score_okapi_bm25(self, corpus_2):
+        """ Mise à jour du score OKAPI BM25
+        
+        Paramètres
+        ----------
+        corpus_2 : Corpus
+            Corpus de comparaison
+            
+        Retour
+        ------
+        Aucun
+        """
+        self.score_okapi_bm25 = okp.score(self, corpus_2)
     
     # Autres fonctions
     def ajouter_article(self, *articles):

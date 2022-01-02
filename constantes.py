@@ -16,6 +16,10 @@ from nltk.corpus import stopwords
 
 # ==== POUR L'EXTRACTION ====
 
+# Paramètres de l'API Mediastack
+my_key_mediastack="74713d7a61ca250397ba5e6b7b64b540"
+CATEGORIES = '-general,health' 
+
 # Paramètres de l'API NewsData 
 CLE_API_NEWSDATA = 'pub_2998ef8f3cbeb3b8f1a3f91cc9d812b4f950'
 PAYS_NEWSDATA = "fr, us"
@@ -27,3 +31,16 @@ CATEGORIES_NEWSDATA = "world"
 
 # Liste des mots vides
 MOTS_VIDES = stopwords.words()
+
+# ==== POUR L'APPLICATION ====
+
+# Dictionnaire des catégories
+SELECTION_CATEGORIES = {
+    'Business' : 'business',
+    'Divertissement' : 'entertainment',
+    'Santé' : 'health',
+    'Science' : 'science',
+    'Sport' : 'sport',
+    'Technologie' : 'technologie',
+    }
+
