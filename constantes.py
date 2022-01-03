@@ -34,13 +34,13 @@ MOTS_VIDES = stopwords.words()
 
 # ==== POUR L'APPLICATION ====
 
-# Dictionnaire des catégories
-SELECTION_CATEGORIES = {
-    'Business' : 'business',
-    'Divertissement' : 'entertainment',
-    'Santé' : 'health',
-    'Science' : 'science',
-    'Sport' : 'sport',
-    'Technologie' : 'technologie',
-    }
+# Sélection des catégories
+SELECTION_CATEGORIES = [
+    {'label' : 'Business', 'value' : 'business'},
+    {'label' : 'Divertissement', 'value' : 'entertainment'},
+    {'label' : 'Santé', 'value' : 'health'},
+    {'label' : 'Science', 'value' : 'science'},
+    {'label' : 'Sport', 'value' : 'sport'},
+    {'label' : 'Technologie', 'value' : 'technologie'}
+]
 

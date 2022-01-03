@@ -217,32 +217,33 @@ class Corpus:
         """
         self.stats['effectif_brut'] = list(map(lambda terme : self.vocabulaire_duplicatas.count(terme), self.stats['terme']))
         
+    def tri_mots_par_effectif(self):
+        """ Tri du data frame "stats" en fonction des effectifs bruts des mots
         
-    
-        import pandas
-        def get_frequence_mots(texte):
-            """ fréquence de chaque mots 
+        Paramètres
+        ----------
+        Aucun
             
-            Paramètres
-            ----------
-            texte:str
-
-            Retour
-            ------
-            Aucun
-            """
-
-            tous_les_mots = texte.split(" ")
+        Retour
+        ------
+        Aucun
+        """
+        self.stats.sort_values(by = 'effectif_brut', ascending = False)
         
-            # Option 1 : Numpy
-            import numpy as np
-            mots, comptes = np.unique(tous_les_mots, return_counts=True)
+    def top_mots(self, nombre_mots_max = 20):
+        """ Liste des n mots les plus présents dans le corpus
         
-            freq = pandas.DataFrame(list(zip(mots, comptes/sum(comptes))), columns=["Mots", "Comptes"])
+        Paramètres
+        ----------
+        nombre_mots_max : int
+            Nombre de mots maximum que l'on veut retourner
             
-            freq=freq.sort_values(by='Comptes', ascending=False)
-            
-            return freq    #♣ freq.head(5) top 5
+        Retour
+        ------
+        Aucun
+        """
+        self.tri_mots_par_effectif()
+        return self.stats.head(nombre_mots_max).terme.tolist()
                 
         
         
