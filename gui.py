@@ -12,9 +12,48 @@ Rôle du Script :
 
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
+import dash_table
 
 
 # ==== FONCTIONS ====
+
+def afficher_dataframe(dataframe):
+    """ Affichage d'un data-frame sous Dash
+    
+    Paramètres
+    ----------
+    dataframe : pandas.DataFrame
+        Données des articles
+        
+    Retour
+    ------
+    dash_table.DataTable
+    """
+    return  dash_table.DataTable(style_data={
+        'whiteSpace': 'normal',
+        },
+        data =  dataframe.to_dict('records'),
+        columns = [{'id': c, 'name': c} for c in  dataframe.columns],
+        css = [{
+            'selector': '.dash-spreadsheet td div',
+            'rule': '''
+                line-height: 15px;
+                max-height: 30px; min-height: 30px; height: 30px;
+                display: block;
+                overflow-y: hidden;
+            '''
+        }],
+        tooltip_data = [
+            {
+                column: {'value': str(value), 'type': 'markdown'}
+                for column, value in row.items()
+            } for row in dataframe.to_dict('records')
+        ],
+        tooltip_duration = None,
+        page_size = 10,
+        style_cell = {'textAlign': 'left'} # left align text in columns for readability
+    )
+
 
 def texte_pour_nuage(liste_mots):
     """ Conversion d'une liste de mots en une chaîne de mots séparés par un espace

@@ -40,7 +40,9 @@ SELECTION_CATEGORIES = [
     {'label' : 'Divertissement', 'value' : 'entertainment'},
     {'label' : 'Santé', 'value' : 'health'},
     {'label' : 'Science', 'value' : 'science'},
-    {'label' : 'Sport', 'value' : 'sport'},
-    {'label' : 'Technologie', 'value' : 'technologie'}
+    {'label' : 'Sport', 'value' : 'sports'},
+    {'label' : 'Technologie', 'value' : 'technology'}
 ]
+
+categories=["business","entertainment","health","science","sports","technology"]
 

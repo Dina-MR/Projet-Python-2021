@@ -90,8 +90,10 @@ def update_output(value):
     style_cell={'textAlign': 'left'} # left align text in columns for readability
 )
 
-if __name__ == '__main__':
-    app.run_server(port=4000)
+#if __name__ == '__main__':
+    #app.run_server(port=4000)
+    
+app.run_server(port=4000)
 
 
 
