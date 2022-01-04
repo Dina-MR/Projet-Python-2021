@@ -77,7 +77,7 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
     decodage = data.decode('utf-8')
     data_json = json.loads(decodage)
     # Récupération de la liste des articles à partir de donnees_json['data']
-    liste_articles_mediastack = data_json['data']
+    liste_articles_mediastack = data_json["data"]
     for indice, article in enumerate(liste_articles_mediastack):
                 
                 titre=article['title']
@@ -99,10 +99,12 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
                 
                 # création  d'un l'objet d'article 
                 nouvel_article_mediastack=ArticleMediastack(titre,auteur,description,source,url,date,categorie,langue,pays)
+                #art=nouvel_article_mediastack.viewMediastack()
+                #list_articles_mediastack.append(art)
                 list_articles_mediastack.append(nouvel_article_mediastack)
         
     
-    return list_articles_mediastack
+    return liste_articles_mediastack ,list_articles_mediastack
    
 
 # Exécution

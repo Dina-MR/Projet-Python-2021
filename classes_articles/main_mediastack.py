@@ -15,12 +15,18 @@ import constantes_mediastack as cst
 #import extraction as ext
 import gestionCorpus as gc
 import classesCorpus as cp
-
+import pandas as pd
+#import nltk
 
 # ==== 1ère étape - Extraction ====
 
-articles_mediastack=sgm.extraction_mediaStack(cst.my_key_mediastack,category=cst.CATEGORIES,limit_page=100)
+article_brut,articles_mediastack=sgm.extraction_mediaStack(cst.my_key_mediastack,category=cst.CATEGORIES,limit_page=100)
 
+df=pd.DataFrame(article_brut)
+index=['author', 'title', 'description','source','category','language', 'country', 'published_at']
+df=df[index]
+print(df.columns)
+df.to_csv("articles1.csv")
 # ============= 2ème étape   ajout  des articles mediastack dans le Corpus ========
 corpus_news_data_mediastack = cp.Corpus("Corpus News Data mediastack")
 corpus_news_data_mediastack.ajouter_article(*articles_mediastack)
