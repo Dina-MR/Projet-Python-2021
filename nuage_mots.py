@@ -10,7 +10,9 @@ import matplotlib.pyplot as plt
 
 def nuage_mots(texte,max_mots=20):
     
-    wordcloud = WordCloud(max_words=max_mots, stopwords = STOPWORDS, background_color='white', width=3000, height=1500).generate(texte)
+    wordcloud = WordCloud(max_words=max_mots,max_font_size=40, scale=3,stopwords = STOPWORDS,
+                          background_color='white', width=3000, 
+                          height=1500,random_state=1 ).generate(texte)
     plt.imshow(wordcloud)
     plt.axis('off')        #ccache l'affichage des axes
     plt.show()
@@ -20,7 +22,6 @@ msg = "Belief is a beautiful Belief  But makes Belief for the heaviest  Belief b
 
 
 nuage_mots(msg)
-
 
 
 

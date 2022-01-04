@@ -29,9 +29,9 @@ class Article:
     def get_source(self):
         return self.type
     
-    def get_source(self):
+    '''def get_source(self):
         return self.source
-
+'''
 # mutateur
     def set_liste_mots(self):
         """ Récupération des mots d'un article sous forme de liste, avec des traitements préalables
@@ -79,10 +79,11 @@ class ArticleMediastack(Article):
         self.categories=categories
     
     #renvoie le texte à afficher: str(ArticleMediastack)
-    def __str__(self):
-        return f"Article Mediastack: {self.titre}, écrit par :{self.auteur} de catégorie: {self.categories}"
-
-
+    #def __str__(self):
+        #return f"Article Mediastack: {self.titre}, écrit par :{self.auteur} de catégorie: {self.categories}"
+        #return {"source":"mediastack","titre":self.titre,"auteur":self.auteur,"categorie":self.categories,"date":self.date}
+    def viewMediastack(self):
+        return {"source":"mediastack","titre":self.titre,"auteur":self.auteur,"categorie":self.categories,"date":self.date}
 
 # classe héritière  d'articles "NewsData"
 class ArticleNewsData(Article):

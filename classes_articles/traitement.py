@@ -10,11 +10,12 @@ Rôle du Script :
 
 # ==== LIBRAIRIE ====
 
+from constantes import MOTS_VIDES
 import string
 import re
 
 
-# ==== METHODE ====
+# ==== METHODES ====
 
 def nettoyer_texte(texte):
     """ Nettoyage d'un texte
@@ -36,8 +37,8 @@ def nettoyer_texte(texte):
     texte_propre = texte_propre.translate(str.maketrans("", "", string.punctuation))
     # Suppression des nombres (entiers, décimaux, positifs, négatifs...)
     texte_propre = re.sub(r"-?\b\d+(\.\d+)?\b", "", texte_propre)
-    # Suppression des petits mots usuels (pronoms, déterminants, conjonctions de coordionation...)
-    texte_propre = re.sub(r"\b[a-z]{1,4}\b", "", texte_propre)
+    # Suppression préliminaire des petits mots usuels (pronoms, déterminants, conjonctions de coordionation...)
+    #texte_propre = re.sub(r"\b[a-z]{1,4}\b", "", texte_propre)
     # Suppression des espaces en trop
     texte_propre = re.sub(" +", " ", texte_propre)
     return texte_propre
