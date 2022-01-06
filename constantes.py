@@ -14,6 +14,7 @@ import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 
+
 # ==== POUR L'EXTRACTION ====
 
 # Paramètres de l'API Mediastack
@@ -27,17 +28,28 @@ LANGUES_NEWSDATA = "en, fr"
 MOTS_CLES_NEWSDATA = "pizza"
 CATEGORIES_NEWSDATA = "world"
 
+
 # ==== POUR LA SAUVEGARDE DES CORPUS DANS DES FICHIER PKL ====
 
 PATH_NEWS_DATA = "sauvegardes/news_data.pkl"
 PATH_MEDIASTACK = "sauvegardes/mediastack.pkl"
+
 
 # ==== POUR LE NETTOYAGE DE TEXTE ====
 
 # Liste des mots vides
 MOTS_VIDES = stopwords.words()
 
+
 # ==== POUR L'APPLICATION ====
+
+# Lien du thème CSS
+THEME = "https://bootswatch.com/5/litera/bootstrap.min.css"
+
+# Style des lignes bootstrap
+STYLE_ROW = {'marginBottom' : 50}
+# Style des images
+STYLE_IMAGE = {'width' : '100%', 'height' : 'auto'}
 
 # Sélection des catégories
 SELECTION_CATEGORIES = [
@@ -49,6 +61,15 @@ SELECTION_CATEGORIES = [
     {'label' : 'Technologie', 'value' : 'technology'}
 ]
 
+# Couleur associées aux corpus
 COULEUR_NEWS_DATA = "#ffa630"
 COULEUR_MEDIASTACK = "#00a7e1"
+
+# Nom des fichiers pour les nuages de mot
+NUAGE_NEWS_DATA = "nuage_news_data.png"
+NUAGE_MEDIASTACK = "nuage_mediastack.png"
+
+# Chemin des nuages de mot
+PATH_NUAGE_NEWS_DATA = "assets/" + NUAGE_NEWS_DATA
+PATH_NUAGE_MEDIASTACK = "assets/" + NUAGE_MEDIASTACK
 

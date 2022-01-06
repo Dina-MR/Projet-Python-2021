@@ -10,8 +10,11 @@ Rôle du Script :
 
 # ==== LIBRAIRIES ====
 
+from constantes import STYLE_IMAGE
 from wordcloud import WordCloud, STOPWORDS
+import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
+import plotly.express as px
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 import dash_table
@@ -30,6 +33,7 @@ def afficher_dataframe(dataframe):
     Retour
     ------
     dash_table.DataTable
+        Table de données issu du data-frame
     """
     return  dash_table.DataTable(style_data={
         'whiteSpace': 'normal',
@@ -68,6 +72,7 @@ def liste_a_texte(liste_textuelle):
     Retour
     ------
     string
+        Texte issu de la liste
     """
     return ", ".join(liste_textuelle)
 
@@ -89,6 +94,7 @@ def afficher_carte_boostrap(titre, contenu, couleur, inversion = False):
     Retour
     ------
     dash_table.DataTable
+        Contenu d'une carte boostrap avec son titre
     """
     return dbc.Card([
                 dbc.CardBody(
@@ -113,6 +119,7 @@ def texte_pour_nuage(liste_mots):
     Retour
     ------
     string
+        Texte pour le nuage de mot
     """
     return ' '.join(liste_mots)
 
@@ -131,20 +138,33 @@ def nuage_mots(liste_mots, fichier_sauvegarde = ''):
     ------
     Aucun
     """
+    print("Création du nuage en cours...")
     texte = texte_pour_nuage(liste_mots)
-    wordcloud = WordCloud(stopwords = STOPWORDS, background_color='white', width=3000, height=1500).generate(texte)
+    wordcloud = WordCloud(stopwords = STOPWORDS, background_color='white', width=3000, height=1500, max_words = 20).generate(texte)
     plt.imshow(wordcloud)
     plt.axis('off')        #ccache l'affichage des axes
     plt.savefig(fichier_sauvegarde)
-    plt.show()
-    #return plt
+    print("Nuage créé et sauvegardé dans le fichier " + fichier_sauvegarde + ".")
     
 
-# ==== TESTS ====
+def afficher_image_locale(fichier, titre, application):
+    """ Affichage d'une image locale sur Dash
     
-msg = "Belief is a beautiful Belief  But makes Belief for the heaviest  Belief beautiful Belief sword Like Belief punching underwater You Belief  never can Belief  hit beautiful Belief who Belief  you're trying Belief for"
-test_cours = msg.split()
-nuage_mots(test_cours, "sauvegardes/test_cours.png")
-
-#nuage_mots(corpus_test_news_data.top_mots())
-
+    Paramètres
+    ----------
+    fichier : string
+        Nom du fichier image dans le dossier "assets"
+    titre : string
+        Titre associé à l'image'
+    application : dash.Dash()
+        Application Dash
+        
+    Retour
+    ------
+    html.Div
+        Section HTML contenant l'image et son titre
+    """
+    return html.Div([
+        html.H4(titre),
+        html.Img(src = application.get_asset_url(fichier), style = STYLE_IMAGE)
+    ])

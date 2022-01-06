@@ -18,7 +18,7 @@ import json
 
 # ==== METHODES ====
 
-def extraction_news_data_api(cle_api, mot_cle =  None, pays = None, langue = None, categorie = None):
+def extraction_news_data_api(cle_api, mot_cle =  None, pays = None, langue = None, categorie = None, limite_page = 10):
     """ Extraction des articles avec l'API NewsData.io
     
     Paramètres
@@ -33,6 +33,8 @@ def extraction_news_data_api(cle_api, mot_cle =  None, pays = None, langue = Non
         Langue(s) choisie(s) pour les articles désirés
     categorie : str
         Catégorie(s) désirée(s) des articles à extraire
+    limite_page : int
+        Nombre maximum de pages dont on veut extraire les articles
         
     Retour
     ------
@@ -44,42 +46,44 @@ def extraction_news_data_api(cle_api, mot_cle =  None, pays = None, langue = Non
     nouveaux_articles = list()
     # Authentification
     api_newsdata = NewsDataApiClient(apikey = cle_api)
-    # Construction de la requête à partir de filtres de recherche
-    requete_news_data = api_newsdata.news_api(q = mot_cle, country = pays, language = langue, category = categorie)
-    # Récupération de la liste des articles
-    liste_articles = requete_news_data['results']
-    # Récupération des articles à partir de la liste d'articles
-    for indice, article in enumerate(liste_articles):
-        # Récupération des attributs de l'article
-        titre = article['title']
-        auteur = article['creator']
-        # S'il n'y a aucun auteur, on laisse le champ "auteur" vide
-        if(article['creator'] is None):
-            auteur = ""
-        # S'il n'y a qu'un seul créateur, on récupère l'unique élément de la liste
-        elif(len(article['creator']) == 1):
-            auteur = article['creator'][0]
-        # S'il y en a plusieurs, on joint le nom des auteurs par des virgules
-        else:
-            auteur = ', '.join(article['creator'])
-        description = article['description']
-        # Si la description n'existe pas, on ne garde pas l'article
-        if(description is None):
-            continue
-        source = article['source_id']
-        url = article['link']
-        mots_cles = article['keywords']
-        # On ne récupère que le jour de publication, pas l'heure
-        if(type(article['pubDate']) == str):
-            date = article['pubDate'].split(" ")[0]
-        else:
-            date = ""
-        contenu = article['content']
-        url_video = article['video_url']
-        # Instanciation du nouvel article en tant qu'objet de type "ArticleNewsData"
-        nouvel_article = ArticleNewsData(titre, auteur, description, source, url, date, contenu, mots_cles, url_video)
-        # Ajout de l'article à la liste des nouveaux articles
-        nouveaux_articles.append(nouvel_article)
+    # Boucle d'extraction d'articles
+    for iteration in range(1, limite_page + 1):
+        # Construction de la requête à partir de filtres de recherche
+        requete_news_data = api_newsdata.news_api(q = mot_cle, country = pays, language = langue, category = categorie, page = iteration)
+        # Récupération de la liste des articles
+        liste_articles = requete_news_data['results']
+        # Récupération des articles à partir de la liste d'articles
+        for indice, article in enumerate(liste_articles):
+            # Récupération des attributs de l'article
+            titre = article['title']
+            auteur = article['creator']
+            # S'il n'y a aucun auteur, on laisse le champ "auteur" vide
+            if(article['creator'] is None):
+                auteur = ""
+            # S'il n'y a qu'un seul créateur, on récupère l'unique élément de la liste
+            elif(len(article['creator']) == 1):
+                auteur = article['creator'][0]
+            # S'il y en a plusieurs, on joint le nom des auteurs par des virgules
+            else:
+                auteur = ', '.join(article['creator'])
+            description = article['description']
+            # Si la description n'existe pas, on ne garde pas l'article
+            if(description is None):
+                continue
+            source = article['source_id']
+            url = article['link']
+            mots_cles = article['keywords']
+            # On ne récupère que le jour de publication, pas l'heure
+            if(type(article['pubDate']) == str):
+                date = article['pubDate'].split(" ")[0]
+            else:
+                date = ""
+            contenu = article['content']
+            url_video = article['video_url']
+            # Instanciation du nouvel article en tant qu'objet de type "ArticleNewsData"
+            nouvel_article = ArticleNewsData(titre, auteur, description, source, url, date, contenu, mots_cles, url_video)
+            # Ajout de l'article à la liste des nouveaux articles
+            nouveaux_articles.append(nouvel_article)
     print("Collection des articles avec l'API News Data terminée !")
     return nouveaux_articles
 

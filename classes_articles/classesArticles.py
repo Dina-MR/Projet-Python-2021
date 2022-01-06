@@ -7,12 +7,34 @@ Created on Thu Dec 23 12:36:39 2021
 
 # ==== LIBRAIRIES ====
 
-import traitement as tt
+import classes_articles.traitement as tt
 
 
 # ==== CLASSES ====
 
 class Article:
+    """ Article de presse
+    
+    Attributs
+    ----------
+    titre : str
+        Titre de l'article
+    auteur : str
+        Auteur de l'article
+    description : str
+        Description de l'article
+    source : str
+        Provenance de l'article
+    url : str
+        Lien URL permettant d'accéder à l'article
+    date : str
+        Date de publication de l'article
+    type : str
+        Type de l'article (Mediastack ou NewsData)
+    liste_mots : set
+        Ensemble des mots distincts contenus dans l'article
+    """
+    
     # Initialisation des variables de la classe mère
     def __init__(self, titre="", auteur="", description="",source="",url="",date="",type=""):
         self.titre = titre
@@ -44,8 +66,7 @@ class Article:
         liste_mots_temporaire = texte_nettoye.split()
         self.liste_mots += tt.supprimer_mots_vides(liste_mots_temporaire)
     
-
-
+    
     # Fonction qui renvoie le texte à afficher lorsqu'on tape repr(Article)
     def __repr__(self):
         return f"Titre : {self.titre}\tAuteur : {self.auteur}\tDescription : {self.description}\Source : {self.source}\tURL : {self.url}\tDate : {self.date}\t"
@@ -62,11 +83,21 @@ class Article:
                 "Source" : self.source,
                 "Date de publication" : self.date
                 }
+
     
-    
-    
-# classe héritière  d'articles "Mediastack"
+# classe héritière d'articles "Mediastack"
 class ArticleMediastack(Article):
+    """ Article de presse extrait avec l'API Mediastack
+    
+    Attributs
+    ----------
+    categories : str
+        Catégorie(s) dans laquelle/lesquelles se trouve l'article
+    langue : str
+        Langue de rédaction de l'article
+    pays : str
+        Pays d'origine où a été publié l'article
+    """
 
     def __init__(self, titre="", auteur="", description="",source="",url="",date="",categories="",langue="",pays=""):
                  super().__init__(titre=titre,auteur=auteur,description=description,source=source,url=url,date=date,type="Mediastack")
@@ -96,9 +127,21 @@ class ArticleMediastack(Article):
         dictionnaire["Langue"] = self.langue
         dictionnaire["Pays d'origine"] = self.pays
         return dictionnaire
+    
 
 # classe héritière  d'articles "NewsData"
 class ArticleNewsData(Article):
+    """ Article de presse extrait avec l'API NewsData
+    
+    Attributs
+    ----------
+    contenu : str
+        Contenu détaillé de l'article
+    mots_cles : list
+        Liste des mots clés de l'article
+    url_video : str
+        Lien URL de la vidéo potentiellement associée à l'article
+    """
 
     def __init__(self, titre="", auteur="", description="",source="",url="",date="",contenu="",mots_cles="",url_video=""):
                  super().__init__(titre=titre,auteur=auteur,description=description,source=source,url=url,date=date,type="NewsData")
@@ -132,6 +175,9 @@ class ArticleNewsData(Article):
             texte_nettoye = tt.nettoyer_texte(self.description)
         liste_mots_temporaire = texte_nettoye.split()
         self.liste_mots += tt.supprimer_mots_vides(liste_mots_temporaire)
+        # Ajout des mots clés dans la liste des mots
+        if(self.mots_cles is not None):
+            self.liste_mots += self.mots_cles
     
    
     #renvoie le texte à afficher: str(ArticleNewsData)

@@ -32,11 +32,12 @@ def sauvegarder_corpus(corpus, fichier, option = "wb"):
     ------
     Aucun
     """
+    print("Sauvegarde du corpus " + corpus.nom + " dans le fichier " + fichier + "...")
     with open(fichier, option) as f:
         pickle.dump(corpus, f)
         
 def ouvrir_corpus(fichier_corpus, option = "rb"):
-    """ Ouveture d'un corpus
+    """ Ouverture d'un corpus
     
     Attributs
     ----------
@@ -49,5 +50,6 @@ def ouvrir_corpus(fichier_corpus, option = "rb"):
     ------
     Corpus
     """
+    print("Ouverture du fichier " + fichier_corpus + "...")
     with open(fichier_corpus, option) as f:
         return pickle.load(f)

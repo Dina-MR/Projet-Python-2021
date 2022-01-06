@@ -17,7 +17,7 @@ import calculs.OKAPI_BM25 as okp
 import pandas
 
 
-# ==== CLASSES ====
+# ==== CLASSE ====
 
 class Corpus:
     """ Ensemble d'articles
@@ -45,11 +45,7 @@ class Corpus:
             - frequence_inversee_brute
             - tf_idf
     score_okapi_bm25 : float
-        Score OKAPI BM25 
-    
-    Retour
-    ------
-    Aucun
+        Score OKAPI BM25
     """
     
     def __init__(self, nom):
@@ -83,6 +79,7 @@ class Corpus:
         ------
         Aucun
         """
+        print("Formatage des articles du corpus " + self.nom + "...")
         return [article.__asdict__() for article in self.id_articles.values()]
     
     # Accesseurs
@@ -143,7 +140,9 @@ class Corpus:
         ------
         Aucun
         """
+        print("Calcul du score OKAPI BM25 du corpus " + self.nom + " en cours...")
         self.score_okapi_bm25 = okp.score(self, corpus_2)
+        print("Calcul du score OKAPI BM25 du corpus " + self.nom + " terminé !")
     
     # Autres fonctions
     def ajouter_article(self, *articles):
