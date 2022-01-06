@@ -71,6 +71,48 @@ class Corpus:
                                                  'frequence_normalisee_max_demi', 'frequence_inverse_brute', 
                                                  'tf_idf'])
         self.score_okapi_bm25 = 0
+        
+    def __asdictlist__(self):
+        """ Renvoi des articles du corpus sous forme de liste de dictionnaire
+        
+        Paramètres
+        ----------
+        Aucun
+            
+        Retour
+        ------
+        Aucun
+        """
+        return [article.__asdict__() for article in self.id_articles.values()]
+    
+    # Accesseurs
+    def get_meilleur_source(self):
+        """ Récupération des sources considérées comme les plus pertirnentes, c'est-à-dire celles ayant le plus d'articles
+        
+        Paramètres
+        ----------
+        Aucun
+            
+        Retour
+        ------
+        list
+        """
+        return self.nombre_articles_par_source[self.nombre_articles_par_source.nombre_articles == self.nombre_articles_par_source['nombre_articles'].max()].source.tolist()
+    
+    def get_effectif_mot(self, mot):
+        """ Récupération de l'occurrence d'un mot dans un corpus
+        
+        Paramètres
+        ----------
+        mot : string
+            Mot dont on veut connaître le nombre d'apparitions
+            
+        Retour
+        ------
+        int
+        """
+        return self.vocabulaire_duplicatas.count(mot)
+    
     
     # Mutateurs
     def set_vocabulaire_unique(self):
@@ -116,6 +158,7 @@ class Corpus:
         ------
         Aucun
         """
+        print("Ajout des articles dans le corpus " + self.nom + " en cours...")
         for article in articles:
            self.nombre_articles += 1
            self.id_articles[self.nombre_articles] = article
@@ -124,6 +167,7 @@ class Corpus:
            self.maj_vocabulaire_duplicatas(self.nombre_articles)
            # Mise à jour du dataframe
            self.maj_articles_par_source(self.nombre_articles)
+        print("Ajout des articles dans le corpus " + self.nom + " terminé !")
         # Mise à jour du vocabulaire sans doublons
         self.set_vocabulaire_unique()
         # Mise à jour des statistiques
@@ -152,7 +196,7 @@ class Corpus:
                                                                                          ignore_index = True)
             # Sinon, on met uniquement à jour le nombre d'article pour la dite source
             else:
-                self.nombre_articles_par_source[self.nombre_articles_par_source.source == source_a_ajouter].nombre_articles += 1
+                self.nombre_articles_par_source.loc[self.nombre_articles_par_source.source == source_a_ajouter, 'nombre_articles'] += 1
         # Si l'article ne possède pas de source, on affiche un message d'erreur
         else:
             print("Erreur : l'article n° {cle_nouvel_article} ne possède pas de source.")
@@ -189,6 +233,7 @@ class Corpus:
         ------
         Aucun
         """
+        print("Mise à jour des stastitiques du corpus " + self.nom + " en cours...")
         # Mise à jour des termes
         self.stats['terme'] = list(self.vocabulaire_unique)
         # Récupération du nombre total de mots dans le vocabulaire (avec doublons)
@@ -203,6 +248,7 @@ class Corpus:
         self.stats['frequence_normalisee_max_demi'] = list(map(tfidf.frequence_normalisee_max_demi, self.stats['frequence_brute'], repeat(frequence_max)))
         self.stats['frequence_inverse_brute'] = list(map(tfidf.frequence_inverse_brute, self.stats['frequence_brute']))
         self.stats['tf_idf'] = list(map(tfidf.tf_idf, self.stats['frequence_brute'], self.stats['frequence_inverse_brute']))
+        print("Mise à jour des stastitiques du corpus " + self.nom + " terminée !")
         
     def maj_stats_effectifs(self):
         """ Mise à jour des effectifs de chaque terme du corpus

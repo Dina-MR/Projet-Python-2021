@@ -39,6 +39,7 @@ def extraction_news_data_api(cle_api, mot_cle =  None, pays = None, langue = Non
     nouveaux_articles : list
         Liste d'articles de type "ArticleNewsData"
     """
+    print("Collection des articles avec l'API News Data en cours...")
     # Liste de nouveaux articles :
     nouveaux_articles = list()
     # Authentification
@@ -52,22 +53,35 @@ def extraction_news_data_api(cle_api, mot_cle =  None, pays = None, langue = Non
         # Récupération des attributs de l'article
         titre = article['title']
         auteur = article['creator']
+        # S'il n'y a aucun auteur, on laisse le champ "auteur" vide
+        if(article['creator'] is None):
+            auteur = ""
+        # S'il n'y a qu'un seul créateur, on récupère l'unique élément de la liste
+        elif(len(article['creator']) == 1):
+            auteur = article['creator'][0]
+        # S'il y en a plusieurs, on joint le nom des auteurs par des virgules
+        else:
+            auteur = ', '.join(article['creator'])
         description = article['description']
         # Si la description n'existe pas, on ne garde pas l'article
         if(description is None):
-            next
+            continue
         source = article['source_id']
         url = article['link']
-        date = article['pubDate']
         mots_cles = article['keywords']
-        date = article['pubDate']
+        # On ne récupère que le jour de publication, pas l'heure
+        if(type(article['pubDate']) == str):
+            date = article['pubDate'].split(" ")[0]
+        else:
+            date = ""
         contenu = article['content']
         url_video = article['video_url']
         # Instanciation du nouvel article en tant qu'objet de type "ArticleNewsData"
-        #nouvel_article = ArticleNewsData(titre, auteur, description, source, url, date, contenu, mots_cles, url_video)
+        nouvel_article = ArticleNewsData(titre, auteur, description, source, url, date, contenu, mots_cles, url_video)
         # Ajout de l'article à la liste des nouveaux articles
-        #nouveaux_articles.append(nouvel_article)
-    return liste_articles, nouveaux_articles
+        nouveaux_articles.append(nouvel_article)
+    print("Collection des articles avec l'API News Data terminée !")
+    return nouveaux_articles
 
 
 def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
@@ -99,6 +113,7 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
     ------
     list_articles_mediastack : list
     """
+    print("Collection des articles avec l'API Mediastack en cours...")
     list_articles_mediastack=list()
   
     # connexion au site
@@ -141,8 +156,12 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
                 pays=article['country']     # 2021-11-25T17:21:41+00:00
                 #date=datetime.datetime.fromtimestamp(article.published_at).strftime("%Y/%m/%d")
                 #date=article['published_at']
-                date=article["published_at"]
-                #date = article["published_at"].split(" ")[0]
+                #date=article["published_at"]
+                date = article["published_at"]
+                # On ne récupère que le jour de publication, pas l'heure
+                if(date is not None):
+                    date = date[0:10]
+                    
                 
                 #date=datetime.datetime.strptime(article["published_at"],"%Y-%m-%dT%H:%M:%SZ").strftime("%Y/%m/%d")
                 #date=datetime.datetime.strptime(date).strftime("%Y/%m/%d")
@@ -151,5 +170,5 @@ def extraction_mediaStack(my_key_mediastack,category=None,limit_page=5):
                 nouvel_article_mediastack=ArticleMediastack(titre,auteur,description,source,url,date,categorie,langue,pays)
                 list_articles_mediastack.append(nouvel_article_mediastack)
         
-    
-    return liste_articles_mediastack, list_articles_mediastack
+    print("Collection des articles avec l'API Mediastack terminée !")
+    return list_articles_mediastack

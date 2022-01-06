@@ -12,6 +12,8 @@ Rôle du Script :
 
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
+import dash_html_components as html
+import dash_bootstrap_components as dbc
 import dash_table
 
 
@@ -55,6 +57,51 @@ def afficher_dataframe(dataframe):
     )
 
 
+def liste_a_texte(liste_textuelle):
+    """ Conversion d'une liste de mots ou de noms en chaine de caractère unique
+    
+    Paramètres
+    ----------
+    liste_textutelle : list
+        Liste de mots ou de noms à reconvertir
+        
+    Retour
+    ------
+    string
+    """
+    return ", ".join(liste_textuelle)
+
+
+def afficher_carte_boostrap(titre, contenu, couleur, inversion = False):
+    """ Affichage d'une carte Boostrap
+    
+    Paramètres
+    ----------
+    titre : string
+        Titre de la carte
+    contenu : string
+        Contenu textuel de la carte
+    Couleur : string
+        Code couleur de la carte
+    Inversion : bool
+        Indication de l'inversion ou non des éléments à l'intérieur de la droite
+        
+    Retour
+    ------
+    dash_table.DataTable
+    """
+    return dbc.Card([
+                dbc.CardBody(
+                    [
+                        html.H4(titre),
+                        html.P(contenu),
+                    ]
+                ),
+        ], 
+        color = couleur, 
+        inverse = inversion)
+
+
 def texte_pour_nuage(liste_mots):
     """ Conversion d'une liste de mots en une chaîne de mots séparés par un espace
     
@@ -68,6 +115,7 @@ def texte_pour_nuage(liste_mots):
     string
     """
     return ' '.join(liste_mots)
+
 
 def nuage_mots(liste_mots, fichier_sauvegarde = ''):
     """ Génération d'un nuage de mots à partir d'une liste de mots

@@ -27,6 +27,11 @@ LANGUES_NEWSDATA = "en, fr"
 MOTS_CLES_NEWSDATA = "pizza"
 CATEGORIES_NEWSDATA = "world"
 
+# ==== POUR LA SAUVEGARDE DES CORPUS DANS DES FICHIER PKL ====
+
+PATH_NEWS_DATA = "sauvegardes/news_data.pkl"
+PATH_MEDIASTACK = "sauvegardes/mediastack.pkl"
+
 # ==== POUR LE NETTOYAGE DE TEXTE ====
 
 # Liste des mots vides
@@ -44,5 +49,6 @@ SELECTION_CATEGORIES = [
     {'label' : 'Technologie', 'value' : 'technology'}
 ]
 
-categories=["business","entertainment","health","science","sports","technology"]
+COULEUR_NEWS_DATA = "#ffa630"
+COULEUR_MEDIASTACK = "#00a7e1"
 
