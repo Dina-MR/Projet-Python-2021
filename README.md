@@ -5,6 +5,7 @@ Ce projet a été réalisé dans le cadre de nos études supérieures en Master 
 
 ## Comment exécuter le programme ?
 
-1. Ouvrir le dossier du projet dans un terminal.
-2. Installer les librairies nécessaires avec la commande "pip install -r requirements.txt".
-3. Exécuter la commande "python main.py" pour lancer le programme.
+1. Dans le fichier "constantes.py", remplacer les valeurs des variables <b>my_key_mediastack</b> et <b>CLE_API_NEWSDATA</b> par vos propres clés API (respectivement pour les API Mediastack et NewsData)
+3. Ouvrir le dossier du projet dans un terminal.
+4. Installer les librairies nécessaires avec la commande <i>pip install -r requirements.txt</i>
+5. Exécuter la commande <i>python main.py</i> pour lancer le programme.
