@@ -18,15 +18,12 @@ from nltk.corpus import stopwords
 # ==== POUR L'EXTRACTION ====
 
 # Paramètres de l'API Mediastack
-my_key_mediastack="74713d7a61ca250397ba5e6b7b64b540"
+my_key_mediastack = "INSEREZ_CLE_API_MEDIASTACK"
 CATEGORIES = '-general,health' 
 
 # Paramètres de l'API NewsData 
-CLE_API_NEWSDATA = 'pub_2998ef8f3cbeb3b8f1a3f91cc9d812b4f950'
-PAYS_NEWSDATA = "fr, us"
+CLE_API_NEWSDATA = 'INSEREZ_CLE_API_NEWS_DATA'
 LANGUES_NEWSDATA = "en, fr"
-MOTS_CLES_NEWSDATA = "pizza"
-CATEGORIES_NEWSDATA = "world"
 
 
 # ==== POUR LA SAUVEGARDE DES CORPUS DANS DES FICHIER PKL ====
